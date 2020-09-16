@@ -1,47 +1,54 @@
+import random
 from graphics import *
 
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
+ALL_COLORS = ["red", "green", "blue", "yellow", "orange", "pink", "purple"]
+
+class Ball:
+    def __init__(self, win):
+        self.graphic = Circle(
+            Point(
+                WINDOW_WIDTH * random.random(),
+                WINDOW_HEIGHT * random.random()
+            ),
+            10
+        )
+        self.graphic.setFill(random.choice(ALL_COLORS))
+        self.graphic.draw(win)
+        self.velocity = Point(random.randint(-6, 6), random.randint(-6, 6))
 
 def main():
     # Set up window
     win = GraphWin("Ball Test", WINDOW_WIDTH, WINDOW_HEIGHT)
 
-    # Create a ball
-    ball = Circle(Point(200, 100), 10)
-    ball.setFill("red")
-    ball.draw(win)
-    ballVelocity = Point(4, 6)
-
-    # Create a second ball
-    ball2 = Circle(Point(100, 200), 10)
-    ball2.setFill("green")
-    ball2.draw(win)
-    ball2Velocity = Point(5, 3)
+    # Create ball
+    ball = Ball(win)
+    ball2 = Ball(win)
 
     isRunning = True
 
     while isRunning:
         # Update ball positions
-        ball.move(ballVelocity.getX(), ballVelocity.getY())
-        ball2.move(ball2Velocity.getX(), ball2Velocity.getY())
+        ball.graphic.move(ball.velocity.getX(), ball.velocity.getY())
+        ball2.graphic.move(ball2.velocity.getX(), ball2.velocity.getY())
 
         # Bounce off walls if necessary
-        ballX = ball.getCenter().getX()
+        ballX = ball.graphic.getCenter().getX()
         if ballX < 0 or ballX > win.getWidth():
-            ballVelocity.x = -ballVelocity.x
+            ball.velocity.x = -ball.velocity.x
 
-        ballY = ball.getCenter().getY()
+        ballY = ball.graphic.getCenter().getY()
         if ballY < 0 or ballY > win.getHeight():
-            ballVelocity.y = -ballVelocity.y
+            ball.velocity.y = -ball.velocity.y
 
-        ball2X = ball2.getCenter().getX()
+        ball2X = ball2.graphic.getCenter().getX()
         if ball2X < 0 or ball2X > win.getWidth():
-            ball2Velocity.x = -ball2Velocity.x
+            ball2.velocity.x = -ball2.velocity.x
 
-        ball2Y = ball2.getCenter().getY()
+        ball2Y = ball2.graphic.getCenter().getY()
         if ball2Y < 0 or ball2Y > win.getHeight():
-            ball2Velocity.y = -ball2Velocity.y
+            ball2.velocity.y = -ball2.velocity.y
 
         # Check if we should exit
         if win.checkKey() == "Escape":
