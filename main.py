@@ -4,6 +4,7 @@ from graphics import *
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 ALL_COLORS = ["red", "green", "blue", "yellow", "orange", "pink", "purple"]
+NUMBER_OF_BALLS = 10
 
 class Ball:
     def __init__(self, win):
@@ -22,33 +23,26 @@ def main():
     # Set up window
     win = GraphWin("Ball Test", WINDOW_WIDTH, WINDOW_HEIGHT)
 
-    # Create ball
-    ball = Ball(win)
-    ball2 = Ball(win)
+    # Create lots of balls
+    balls = []
+    for i in range(NUMBER_OF_BALLS):
+        balls.append(Ball(win))
 
     isRunning = True
 
     while isRunning:
-        # Update ball positions
-        ball.graphic.move(ball.velocity.getX(), ball.velocity.getY())
-        ball2.graphic.move(ball2.velocity.getX(), ball2.velocity.getY())
+        for ball in balls:
+            # Update ball positions
+            ball.graphic.move(ball.velocity.getX(), ball.velocity.getY())
 
-        # Bounce off walls if necessary
-        ballX = ball.graphic.getCenter().getX()
-        if ballX < 0 or ballX > win.getWidth():
-            ball.velocity.x = -ball.velocity.x
+            # Bounce off walls if necessary
+            ballX = ball.graphic.getCenter().getX()
+            if ballX < 0 or ballX > win.getWidth():
+                ball.velocity.x = -ball.velocity.x
 
-        ballY = ball.graphic.getCenter().getY()
-        if ballY < 0 or ballY > win.getHeight():
-            ball.velocity.y = -ball.velocity.y
-
-        ball2X = ball2.graphic.getCenter().getX()
-        if ball2X < 0 or ball2X > win.getWidth():
-            ball2.velocity.x = -ball2.velocity.x
-
-        ball2Y = ball2.graphic.getCenter().getY()
-        if ball2Y < 0 or ball2Y > win.getHeight():
-            ball2.velocity.y = -ball2.velocity.y
+            ballY = ball.graphic.getCenter().getY()
+            if ballY < 0 or ballY > win.getHeight():
+                ball.velocity.y = -ball.velocity.y
 
         # Check if we should exit
         if win.checkKey() == "Escape":
