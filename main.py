@@ -13,11 +13,18 @@ def main():
     ball.draw(win)
     ballVelocity = Point(4, 6)
 
+    # Create a second ball
+    ball2 = Circle(Point(100, 200), 10)
+    ball2.setFill("green")
+    ball2.draw(win)
+    ball2Velocity = Point(5, 3)
+
     isRunning = True
 
     while isRunning:
-        # Update ball position
+        # Update ball positions
         ball.move(ballVelocity.getX(), ballVelocity.getY())
+        ball2.move(ball2Velocity.getX(), ball2Velocity.getY())
 
         # Bounce off walls if necessary
         ballX = ball.getCenter().getX()
@@ -27,6 +34,14 @@ def main():
         ballY = ball.getCenter().getY()
         if ballY < 0 or ballY > win.getHeight():
             ballVelocity.y = -ballVelocity.y
+
+        ball2X = ball2.getCenter().getX()
+        if ball2X < 0 or ball2X > win.getWidth():
+            ball2Velocity.x = -ball2Velocity.x
+
+        ball2Y = ball2.getCenter().getY()
+        if ball2Y < 0 or ball2Y > win.getHeight():
+            ball2Velocity.y = -ball2Velocity.y
 
         # Check if we should exit
         if win.checkKey() == "Escape":
